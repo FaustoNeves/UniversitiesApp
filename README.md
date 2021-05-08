@@ -6,7 +6,7 @@ The main functionality is: you can search for education institutions. It searchs
 (or nothing, if you want to bring the whole list!) and it will search in the API for the characters that you have typed in.
 The second functionality is: when you click on any university displayed on the list, you will be redirected to their respective website!
 
-| Home Screen      | Register Screen      |
+| Searching      | Accessing respective website      |
 |------------|-------------|
 |   <img src="https://user-images.githubusercontent.com/66192808/117543055-96634780-aff1-11eb-8705-1502d6fbe7c5.gif" alt="drawing" width="350"/>|<img src="https://user-images.githubusercontent.com/66192808/117543107-cc083080-aff1-11eb-8f76-8a8b798517f1.gif" alt="drawing" width="350">|
 

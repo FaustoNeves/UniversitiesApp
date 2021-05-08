@@ -11,18 +11,22 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.fausto.institutions_app.R
-import br.com.fausto.institutions_app.database.AppDatabase
+import br.com.fausto.institutions_app.model.UniversityParsed
 import br.com.fausto.institutions_app.model.UniversityParsedItem
-import br.com.fausto.institutions_app.repository.UniversityRepository
-import br.com.fausto.institutions_app.util.ConnectionChecker
+import br.com.fausto.institutions_app.retrofit.RetrofitBuilder
 import kotlinx.android.synthetic.main.activity_main.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MainActivity : AppCompatActivity(), UniversityAdapter.OnUniversityListener {
     private lateinit var progressBar: ProgressBar
     private lateinit var txtName: EditText
     lateinit var context: Context
-    lateinit var repository: UniversityRepository
+
+    //    lateinit var repository: UniversityRepository
     private var listOfUniversities: MutableList<UniversityParsedItem>? = null
+    val universityService = RetrofitBuilder().universityService()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,37 +34,48 @@ class MainActivity : AppCompatActivity(), UniversityAdapter.OnUniversityListener
         progressBar = progressBarMainActivity
         txtName = edit_text_search
         context = this
-        repository = UniversityRepository(AppDatabase.getInstance(this).universityDao)
+//        repository = UniversityRepository(AppDatabase.getInstance(this).universityDao)
     }
 
     fun btnSearch(view: View) {
-        progressBar.visibility = View.VISIBLE
-        loadUniversitiesList(txtName.text.toString()) {
-            listOfUniversities = it
-            runOnUiThread {
-                recyclerView.adapter = UniversityAdapter(it, this, this)
-                recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-            }
-        }
+//        progressBar.visibility = View.VISIBLE
+        val universitiesList = loadUniversitiesList(txtName.text.toString())
+//        recyclerView.adapter = universitiesList?.let {
+//            UniversityAdapter(
+//                it, context, this@MainActivity
+//            )
+//        }
+//        recyclerView.layoutManager =
+//            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
     }
 
-    private fun loadUniversitiesList(name: String, finished: (MutableList<UniversityParsedItem>) -> Unit) {
-        val repository = UniversityRepository(AppDatabase.getInstance(this).universityDao)
-        if (ConnectionChecker.hasInternetConnection(this)) {
-            repository.getListOfUniversities(name, success = {
-                progressBar.visibility = View.INVISIBLE
-                finished(it!!)
-            }, failure = {
-                progressBar.visibility = View.INVISIBLE
-                Toast.makeText(this, "Something went wrong!", Toast.LENGTH_SHORT).show()
-            })
-        } else {
-            Toast.makeText(this, "Last result displayed, to make a new research, connect to the ethernet", Toast.LENGTH_LONG).show()
-            progressBar.visibility = View.INVISIBLE
-            repository.loadListFromDB(success = {
-                finished(it)
-            })
-        }
+    private fun loadUniversitiesList(name: String): MutableList<UniversityParsedItem>? {
+        var universitiesList: MutableList<UniversityParsedItem>? = null
+        universityService.getUniversities(name).enqueue(object : Callback<UniversityParsed> {
+            override fun onResponse(
+                call: Call<UniversityParsed>,
+                response: Response<UniversityParsed>
+            ) {
+                if (response.isSuccessful) {
+                    universitiesList = response.body()
+                    recyclerView.adapter = UniversityAdapter(universitiesList!!, context, this@MainActivity)
+                    recyclerView.layoutManager =
+                        LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                } else {
+                    Toast.makeText(
+                        context,
+                        "Connect to search for universities",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+
+            override fun onFailure(call: Call<UniversityParsed>, t: Throwable) {
+                Toast.makeText(context, "Impossible to handle", Toast.LENGTH_SHORT).show()
+            }
+
+        })
+        return universitiesList
     }
 
     override fun onUniversityClick(position: Int) {

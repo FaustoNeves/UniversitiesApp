@@ -24,9 +24,8 @@ class MainActivity : AppCompatActivity(), UniversityAdapter.OnUniversityListener
     private lateinit var txtName: EditText
     lateinit var context: Context
 
-    //    lateinit var repository: UniversityRepository
     private var listOfUniversities: MutableList<UniversityParsedItem>? = null
-    val universityService = RetrofitBuilder().universityService()
+    private val universityService = RetrofitBuilder().universityService()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,34 +33,28 @@ class MainActivity : AppCompatActivity(), UniversityAdapter.OnUniversityListener
         progressBar = progressBarMainActivity
         txtName = edit_text_search
         context = this
-//        repository = UniversityRepository(AppDatabase.getInstance(this).universityDao)
     }
 
     fun btnSearch(view: View) {
-//        progressBar.visibility = View.VISIBLE
-        val universitiesList = loadUniversitiesList(txtName.text.toString())
-//        recyclerView.adapter = universitiesList?.let {
-//            UniversityAdapter(
-//                it, context, this@MainActivity
-//            )
-//        }
-//        recyclerView.layoutManager =
-//            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        progressBar.visibility = View.VISIBLE
+        loadUniversitiesList(txtName.text.toString())
     }
 
-    private fun loadUniversitiesList(name: String): MutableList<UniversityParsedItem>? {
-        var universitiesList: MutableList<UniversityParsedItem>? = null
+    private fun loadUniversitiesList(name: String) {
         universityService.getUniversities(name).enqueue(object : Callback<UniversityParsed> {
             override fun onResponse(
                 call: Call<UniversityParsed>,
                 response: Response<UniversityParsed>
             ) {
                 if (response.isSuccessful) {
-                    universitiesList = response.body()
-                    recyclerView.adapter = UniversityAdapter(universitiesList!!, context, this@MainActivity)
+                    progressBar.visibility = View.INVISIBLE
+                    listOfUniversities = response.body()
+                    recyclerView.adapter =
+                        UniversityAdapter(response.body()!!, context, this@MainActivity)
                     recyclerView.layoutManager =
-                        LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                        LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                 } else {
+                    progressBar.visibility = View.INVISIBLE
                     Toast.makeText(
                         context,
                         "Connect to search for universities",
@@ -72,10 +65,9 @@ class MainActivity : AppCompatActivity(), UniversityAdapter.OnUniversityListener
 
             override fun onFailure(call: Call<UniversityParsed>, t: Throwable) {
                 Toast.makeText(context, "Impossible to handle", Toast.LENGTH_SHORT).show()
+                progressBar.visibility = View.INVISIBLE
             }
-
         })
-        return universitiesList
     }
 
     override fun onUniversityClick(position: Int) {

@@ -7,7 +7,7 @@
     tools:context=".ui.MainActivity">
 
     <EditText
-        android:id="@+id/edit_text_search"
+        android:id="@+id/textSearch"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
@@ -52,7 +52,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_text_search"
+        app:layout_constraintTop_toBottomOf="@+id/textSearch"
         app:layout_constraintVertical_bias="0.123" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

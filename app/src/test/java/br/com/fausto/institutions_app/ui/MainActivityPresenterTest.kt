@@ -31,7 +31,7 @@ class MainActivityPresenterTest {
     }
 
     @Test
-    fun searchForUniversities() {
+    fun invalidSearchForUniversities() {
         mainPresenter.loadUniversitiesList("")
         verify(mockMainActivity).displayMessage("Empty institutions name")
     }

@@ -13,4 +13,12 @@ The second functionality is: when you click on any university displayed on the l
 |------------|-------------|
 |   <img src="https://user-images.githubusercontent.com/66192808/117543055-96634780-aff1-11eb-8705-1502d6fbe7c5.gif" alt="drawing" width="350"/>|<img src="https://user-images.githubusercontent.com/66192808/117543107-cc083080-aff1-11eb-8f76-8a8b798517f1.gif" alt="drawing" width="350">|
 
+This app covers MVP architecture and presenter tests and here are a few topics that can be useful:
+
+* [Very helpful (totally) youtube playlist](https://www.youtube.com/playlist?list=PLTihuzC3BWUrMwZoFj7pFu4-OCWkSAEq0)
+* Inside my presenter layer, I can change the views inside the coroutine thread (not UI thread) thankfully to the LifecycleScope class (base package) wich sets dispatchers on MAIN (non-default behavior)
+* Also, on the service layer, I don't return a http response object to make tests easier to stub. If I had to return a retrofit response, it would be much more difficult (a retrofit2 response object takes another okhttp3 response object) and that wouldn't make any difference on the presenter behavior
+* On the service layer, I don't return an usual collection because the response class inherits ArrayList
+* [MVP guides collection](https://www.youtube.com/playlist?list=PL4Shz0ergABUSI0Jtdgw9jCBpmNo1NGLt)
+
 I hope you enjoy it, have a nice day!

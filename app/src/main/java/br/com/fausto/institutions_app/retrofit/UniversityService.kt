@@ -7,5 +7,5 @@ import retrofit2.http.Query
 
 interface UniversityService {
     @GET("/search")
-    suspend fun getUniversities(@Query("name") universityName: String): Response<UniversityParsed>
+    suspend fun getUniversities(@Query("name") universityName: String): UniversityParsed
 }

@@ -1,4 +1,4 @@
-package br.com.fausto.institutions_app.ui
+package br.com.fausto.institutions_app.ui.adapter
 
 import android.content.Context
 import android.view.LayoutInflater

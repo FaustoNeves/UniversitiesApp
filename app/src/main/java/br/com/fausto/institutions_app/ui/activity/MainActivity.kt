@@ -1,4 +1,4 @@
-package br.com.fausto.institutions_app.ui
+package br.com.fausto.institutions_app.ui.activity
 
 import android.content.ActivityNotFoundException
 import android.content.Context
@@ -13,6 +13,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.fausto.institutions_app.R
 import br.com.fausto.institutions_app.model.UniversityParsedItem
+import br.com.fausto.institutions_app.ui.adapter.UniversityAdapter
+import br.com.fausto.institutions_app.ui.presenter.MainActivityContract
+import br.com.fausto.institutions_app.ui.presenter.MainActivityPresenter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.university_view.view.*
 
@@ -20,8 +23,8 @@ class MainActivity : AppCompatActivity(), UniversityAdapter.OnUniversityListener
     MainActivityContract.MainActivityView {
     private lateinit var progressBar: ProgressBar
     private lateinit var txtName: EditText
-    lateinit var context: Context
-    lateinit var presenter: MainActivityContract.MainActivityPresenter
+    private lateinit var context: Context
+    private lateinit var presenter: MainActivityContract.MainActivityPresenter
 
     private var listOfUniversities: MutableList<UniversityParsedItem>? = null
 
@@ -31,12 +34,21 @@ class MainActivity : AppCompatActivity(), UniversityAdapter.OnUniversityListener
         progressBar = progressBarMainActivity
         txtName = textSearch
         context = this
-        presenter = MainActivityPresenter()
-        presenter.setView(this)
+        presenter = MainActivityPresenter.create()
+        lifecycle.addObserver(presenter as MainActivityPresenter)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        presenter.setupView(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        presenter.dropView()
     }
 
     fun btnSearch(view: View) {
-        setProgressBar()
         presenter.loadUniversitiesList(txtName.text.toString())
     }
 
@@ -49,7 +61,6 @@ class MainActivity : AppCompatActivity(), UniversityAdapter.OnUniversityListener
     }
 
     override fun setRecyclerView(universitiesList: MutableList<UniversityParsedItem>) {
-        setProgressBar()
         listOfUniversities = universitiesList
         recyclerView.adapter = UniversityAdapter(universitiesList, context, this@MainActivity)
         recyclerView.layoutManager =
@@ -58,7 +69,6 @@ class MainActivity : AppCompatActivity(), UniversityAdapter.OnUniversityListener
 
     override fun displayMessage(message: String) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-        endProgressBar()
     }
 
     override fun onUniversityClick(position: Int) {

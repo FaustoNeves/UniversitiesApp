@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 import java.io.Serializable
 
 @Entity
-class UniversityParsedItem(
+class University(
         var alpha_two_code: String?,
         var country: String?,
         //var domains: List<String>?,

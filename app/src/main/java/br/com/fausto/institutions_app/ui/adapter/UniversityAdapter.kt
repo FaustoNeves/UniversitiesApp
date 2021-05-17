@@ -7,12 +7,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import br.com.fausto.institutions_app.R
-import br.com.fausto.institutions_app.model.UniversityParsedItem
+import br.com.fausto.institutions_app.model.University
 import br.com.fausto.institutions_app.util.ImageGenerator
 import kotlinx.android.synthetic.main.university_view.view.*
 import org.json.JSONArray
 
-class UniversityAdapter(private val universities: MutableList<UniversityParsedItem>, private val context: Context, private var listener: OnUniversityListener /*, private val listener: (University) -> Unit*/) : Adapter<UniversityAdapter.ViewHolder>() {
+class UniversityAdapter(private val universities: MutableList<University>, private val context: Context, private var listener: OnUniversityListener /*, private val listener: (University) -> Unit*/) : Adapter<UniversityAdapter.ViewHolder>() {
 
     private var universityListener: OnUniversityListener = listener
 
@@ -28,7 +28,7 @@ class UniversityAdapter(private val universities: MutableList<UniversityParsedIt
 
     inner class ViewHolder(itemView: View, listener: OnUniversityListener) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         private var universityListener = listener
-        fun bindView(university: UniversityParsedItem) {
+        fun bindView(university: University) {
 
             val image = itemView.image
             val name = itemView.name

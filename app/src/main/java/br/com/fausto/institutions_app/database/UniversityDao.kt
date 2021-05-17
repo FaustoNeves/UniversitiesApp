@@ -4,18 +4,18 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
-import br.com.fausto.institutions_app.model.UniversityParsedItem
+import br.com.fausto.institutions_app.model.University
 
 @Dao
 interface UniversityDao {
 
     @Insert(onConflict = REPLACE)
-    fun save(universityParsedItem: UniversityParsedItem)
+    fun save(university: University)
 
-    @Query("SELECT * FROM UniversityParsedItem LIMIT 1000")
-    fun loadAll(): MutableList<UniversityParsedItem>
+    @Query("SELECT * FROM University LIMIT 1000")
+    fun loadAll(): MutableList<University>
 
-    @Query("DELETE FROM UniversityParsedItem")
+    @Query("DELETE FROM University")
     fun clearTable()
 
 }

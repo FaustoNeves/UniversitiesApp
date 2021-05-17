@@ -5,10 +5,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import br.com.fausto.institutions_app.model.UniversityParsedItem
+import br.com.fausto.institutions_app.model.University
 import br.com.fausto.institutions_app.util.Converter
 
-@Database(entities = [UniversityParsedItem::class], version = 1, exportSchema = false)
+@Database(entities = [University::class], version = 1, exportSchema = false)
 @TypeConverters(Converter::class)
 abstract class AppDatabase : RoomDatabase() {
 

@@ -1,6 +1,6 @@
 package br.com.fausto.institutions_app.ui.presenter
 
-import br.com.fausto.institutions_app.model.UniversityParsedItem
+import br.com.fausto.institutions_app.model.University
 import br.com.fausto.institutions_app.ui.base.BaseContract
 
 interface MainActivityContract : BaseContract {
@@ -8,7 +8,7 @@ interface MainActivityContract : BaseContract {
     interface MainActivityView : BaseContract.View {
         fun setProgressBar()
         fun endProgressBar()
-        fun setRecyclerView(universitiesList: MutableList<UniversityParsedItem>)
+        fun setRecyclerView(universitiesList: MutableList<University>)
         fun displayMessage(message: String)
     }
 

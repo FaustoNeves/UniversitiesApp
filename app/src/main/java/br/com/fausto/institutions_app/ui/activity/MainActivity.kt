@@ -12,7 +12,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.fausto.institutions_app.R
-import br.com.fausto.institutions_app.model.UniversityParsedItem
+import br.com.fausto.institutions_app.model.University
 import br.com.fausto.institutions_app.ui.adapter.UniversityAdapter
 import br.com.fausto.institutions_app.ui.presenter.MainActivityContract
 import br.com.fausto.institutions_app.ui.presenter.MainActivityPresenter
@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity(), UniversityAdapter.OnUniversityListener
     private lateinit var context: Context
     private lateinit var presenter: MainActivityContract.MainActivityPresenter
 
-    private var listOfUniversities: MutableList<UniversityParsedItem>? = null
+    private var listOfUniversities: MutableList<University>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity(), UniversityAdapter.OnUniversityListener
         progressBar.visibility = View.INVISIBLE
     }
 
-    override fun setRecyclerView(universitiesList: MutableList<UniversityParsedItem>) {
+    override fun setRecyclerView(universitiesList: MutableList<University>) {
         listOfUniversities = universitiesList
         recyclerView.adapter = UniversityAdapter(universitiesList, context, this@MainActivity)
         recyclerView.layoutManager =

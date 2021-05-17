@@ -1,7 +1,7 @@
 package br.com.fausto.institutions_app.ui
 
-import br.com.fausto.institutions_app.model.UniversityParsed
-import br.com.fausto.institutions_app.model.UniversityParsedItem
+import br.com.fausto.institutions_app.model.UniversityResponse
+import br.com.fausto.institutions_app.model.University
 import br.com.fausto.institutions_app.retrofit.UniversityService
 import br.com.fausto.institutions_app.ui.presenter.MainActivityContract
 import br.com.fausto.institutions_app.ui.presenter.MainActivityPresenter
@@ -52,7 +52,7 @@ class MainActivityPresenterTest {
     @Test
     fun universitiesValidSearch() {
         runBlocking {
-            val universityParsed = UniversityParsed()
+            val universityParsed = UniversityResponse()
             universityParsed.addAll(generateFakeList())
             whenever(universityService.getUniversities("mit")).thenReturn(universityParsed)
             mainPresenter.loadUniversitiesList("mit")
@@ -61,21 +61,21 @@ class MainActivityPresenterTest {
         }
     }
 
-    private fun generateFakeList(): MutableList<UniversityParsedItem> {
+    private fun generateFakeList(): MutableList<University> {
         return mutableListOf(
-            UniversityParsedItem(
+            University(
                 "alpha_two_code",
                 "United States",
                 "US College",
                 listOf("www.uscollege.com")
             ),
-            UniversityParsedItem(
+            University(
                 "alpha_two_code",
                 "United States",
                 "US College",
                 listOf("www.uscollege.com")
             ),
-            UniversityParsedItem(
+            University(
                 "alpha_two_code",
                 "United States",
                 "US College",

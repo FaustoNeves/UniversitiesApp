@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import android.widget.ProgressBar
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.fausto.institutions_app.R
@@ -16,6 +15,7 @@ import br.com.fausto.institutions_app.model.University
 import br.com.fausto.institutions_app.ui.adapter.UniversityAdapter
 import br.com.fausto.institutions_app.ui.presenter.MainActivityContract
 import br.com.fausto.institutions_app.ui.presenter.MainActivityPresenter
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.university_view.view.*
 
@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity(), UniversityAdapter.OnUniversityListener
     }
 
     override fun displayMessage(message: String) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+        Snackbar.make(findViewById(R.id.mainLayout), message, 2000).show()
     }
 
     override fun onUniversityClick(position: Int) {

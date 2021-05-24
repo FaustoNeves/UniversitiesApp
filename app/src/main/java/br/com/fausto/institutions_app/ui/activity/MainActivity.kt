@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity(), UniversityAdapter.OnUniversityListener
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         progressBar = progressBarMainActivity
-        txtName = textSearch
+        txtName = textName
         context = this
         presenter = MainActivityPresenter.create()
         lifecycle.addObserver(presenter as MainActivityPresenter)

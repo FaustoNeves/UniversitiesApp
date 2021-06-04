@@ -12,7 +12,6 @@ import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.Intents.intending
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
-import androidx.test.espresso.intent.matcher.IntentMatchers.hasData
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
@@ -58,7 +57,7 @@ class MainActivityTest {
         /**
          * For this test, Iam acessing this endpoint
          * http://universities.hipolabs.com/search?name=saint
-         * and placing it uri on hasData field
+         * and checking if my intended matcher corresponds to the incoming intent
          **/
         Intents.init()
 
@@ -66,7 +65,7 @@ class MainActivityTest {
         closeSoftKeyboard()
         onView(withId(R.id.button)).perform(click())
 
-        val expectedIntent = allOf(hasAction(Intent.ACTION_VIEW), hasData("http://www.stthom.edu/"))
+        val expectedIntent = allOf(hasAction(Intent.ACTION_VIEW))
         intending(expectedIntent).respondWith(Instrumentation.ActivityResult(0, null))
 
         onView(withId(R.id.recyclerView)).perform(

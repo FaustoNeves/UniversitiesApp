@@ -1,10 +1,12 @@
 package br.com.fausto.institutions_app.ui
 
+import androidx.test.espresso.IdlingRegistry
 import br.com.fausto.institutions_app.model.UniversityResponse
 import br.com.fausto.institutions_app.model.University
 import br.com.fausto.institutions_app.retrofit.UniversityService
 import br.com.fausto.institutions_app.ui.presenter.MainActivityContract
 import br.com.fausto.institutions_app.ui.presenter.MainActivityPresenter
+import br.com.fausto.institutions_app.util.IdleResourceCounter
 import br.com.fausto.institutions_app.utils.MainCoroutineRule
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
@@ -36,11 +38,15 @@ class MainActivityPresenterTest {
     fun initializeSetup() {
         MockitoAnnotations.openMocks(this)
         mainPresenter.setupView(mockMainActivity)
+        IdlingRegistry.getInstance()
+            .register(IdleResourceCounter.countingIdlingResource)
     }
 
     @After
     fun dropSetup() {
         mainPresenter.dropView()
+        IdlingRegistry.getInstance()
+            .unregister(IdleResourceCounter.countingIdlingResource)
     }
 
     @Test

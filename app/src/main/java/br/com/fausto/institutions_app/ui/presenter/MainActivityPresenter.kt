@@ -25,8 +25,9 @@ class MainActivityPresenter(private val universityService: UniversityService) :
          * To cover this, I wrapped everything inside of a try catch block
          * */
         launch {
-            if (universityName.isEmpty()) {
+            if (universityName == "") {
                 view!!.displayMessage("Empty institutions name")
+                IdleResourceCounter.decrement()
             } else {
                 view!!.setProgressBar()
                 try {
